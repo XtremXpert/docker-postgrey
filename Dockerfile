@@ -1,13 +1,14 @@
-FROM ubuntu:trusty
+FROM debian:latest
 
-RUN apt-get update
+MAINTAINER Benoît "XtremXpert" Vézina  <xtremxpert@xtremxpert.com>
 
-RUN apt-get install -y software-properties-common \
- && add-apt-repository ppa:mail-in-a-box/ppa \
- && apt-get update \
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
  && apt-get install -y postgrey \
  && rm -rf /var/lib/apt/lists/*
 
 CMD ["postgrey", "--inet", "0.0.0.0:10023", "--delay", "50", "--user", "postgrey", "--group", "postgrey"]
+
 EXPOSE 10023/tcp
 VOLUME /var/lib/postgrey
